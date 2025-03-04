@@ -1,4 +1,3 @@
-
 package com.example.Greeting_App.Model;
 
 import jakarta.persistence.*;
@@ -12,7 +11,7 @@ public class Greeting {
 
     private String message;
 
-    // ? Default constructor (Required by JPA)
+    // ✅ Default constructor (Required by JPA)
     public Greeting() {
     }
 

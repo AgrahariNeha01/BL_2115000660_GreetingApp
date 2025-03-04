@@ -1,13 +1,11 @@
 package com.example.Greeting_App.Controller;
 import com.example.Greeting_App.Model.Greeting;
-import com.example.Greeting_App.Service.GreetingService;
+import com.example.Greeting_App.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

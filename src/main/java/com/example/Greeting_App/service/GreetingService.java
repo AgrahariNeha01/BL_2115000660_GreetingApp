@@ -1,4 +1,4 @@
-package com.example.Greeting_App.Service;
+package com.example.Greeting_App.service;
 import com.example.Greeting_App.Model.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -12,6 +12,9 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
 
+    @Autowired
+    private EmailService emailService;
+
     private final AuthUserRepository authUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -45,6 +48,17 @@ public class AuthenticationService {
             throw new RuntimeException("Invalid email or password");
         }
 
-        return "Login successful";
+        if (!passwordEncoder.matches(loginDTO.getPassword(), userOptional.get().getPassword())) {
+            throw new RuntimeException("Invalid email or password!");
+        }
+        sendLoginNotification(userOptional.get().getEmail());
+        String token=jwtUtil.generateToken(userOptional.get().getEmail());
+        return "Login successful, token: "+token;
+    }
+
+
+    // New method to send email notification
+    private void sendLoginNotification(String email) {
+        emailService.sendSimpleEmail(email, "Login Alert", "You have successfully logged into your account.");
     }
 }

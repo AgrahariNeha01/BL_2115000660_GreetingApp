@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Configuration
+
+@EnableMethodSecurity
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
-                                        "/auth/register", "/auth/login", "/h2-console/**",
+                                        "/auth/register", "/auth/login", "/auth/forgotPassword/**", "/auth/resetPassword/**", "/h2-console/**",
                                         "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**"
 //                                "/**"
                                 ).permitAll()
@@ -51,6 +54,10 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    @Bean  // 🛑 **Yeh add karo** 🛑
+    public UserDetailsService userDetailsService() {
+        return email -> User.withUsername(email).password("").authorities(Collections.emptyList()).build();
     }
 }
 
